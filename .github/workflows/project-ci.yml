@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./ml_project
+        working-directory: ./lllFaNToMlll
     strategy:
       fail-fast: false
       matrix:
