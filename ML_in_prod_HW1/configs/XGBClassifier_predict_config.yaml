@@ -1,0 +1,7 @@
+input_data_path: "data/raw.csv"
+model_path: "models/XGBClassifier.pkl"
+predict_path: "models/XGBClassifier_predict.csv"
+transformer_path: "models/XGBClassifier_transformer.pkl"
+
+target_in_dataset: True
+target: "condition"
