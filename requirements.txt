@@ -7,3 +7,4 @@ numpy==1.21.6
 marshmallow-dataclass==8.5.5
 pyyaml==3.11
 click==8.1.2
+xgboost==1.5.2
