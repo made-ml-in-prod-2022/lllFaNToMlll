@@ -1,3 +1,4 @@
+"""Функция для работы с данными"""
 import sys
 import logging
 from typing import Tuple
@@ -11,13 +12,15 @@ logger.addHandler(handler)
 
 
 def read_data(path: str) -> pd.DataFrame:
+    """Функция для загрузки датасета"""
     logger.info(f'Начинается загрузка файла {path}', )
     data = pd.read_csv(path)
     logger.info(f'Загрузка завершена {path}')
     return data
 
 
-def split_train_val_data(data: pd.DataFrame, params) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def split_train_test_data(data: pd.DataFrame, params) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Функция для разбиение датасета на обучающую и тестовую выборки"""
     logger.info('Создание обучающей и тестовой выборки')
     train_data, test_data = train_test_split(
         data,

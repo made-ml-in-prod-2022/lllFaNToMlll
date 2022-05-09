@@ -1,15 +1,17 @@
+"""Файл для работы с моделью"""
 import pickle
 import sys
 import logging
 from typing import Dict, NoReturn
+import json
 import pandas as pd
 import numpy as np
-import json
 from xgboost import XGBClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import roc_auc_score
+
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
@@ -18,6 +20,7 @@ logger.addHandler(handler)
 
 
 def train_model(features: pd.DataFrame, target: pd.Series, train_params) -> XGBClassifier:
+    """Функция для обучения модели"""
     logger.info(f'Обучение модели {train_params.model_type}')
     if train_params.model_type == 'XGBClassifier':
         model = XGBClassifier(
@@ -44,6 +47,7 @@ def train_model(features: pd.DataFrame, target: pd.Series, train_params) -> XGBC
 
 
 def predict_model(model: XGBClassifier, feature: pd.DataFrame) -> np.ndarray:
+    """Функция для предсказания модели"""
     logger.info('Предсказание модели')
     predict = model.predict(feature)
     logger.info('Модель завершила предсказания')
@@ -52,31 +56,35 @@ def predict_model(model: XGBClassifier, feature: pd.DataFrame) -> np.ndarray:
 
 def calculate_metrics(predict: np.ndarray, target: pd.Series,
                       path: str = "models/XGBClassifier_metrics_train.json") -> Dict[str, float]:
+    """Функция для расчета метрик"""
     logger.info('Расчет метрик')
     metrics = {
         "Roc|Auc": roc_auc_score(target, predict),
         "Accuracy": accuracy_score(target, predict),
         "F1": f1_score(target, predict)
     }
-    with open(path, 'w') as fp:
-        json.dump(metrics, fp)
+    with open(path, 'w', encoding='UTF-8') as file:
+        json.dump(metrics, file)
 
     return metrics
 
 
 def save_model(model: XGBClassifier, path: str = "models/XGBClassifier.pkl") -> NoReturn:
+    """Функция для сохранения модели"""
     with open(path, 'wb') as file:
         pickle.dump(model, file, protocol=pickle.HIGHEST_PROTOCOL)
     logger.info('Модель сохранена')
 
 
 def load_model(path: str = "models/XGBClassifier.pkl"):
+    """Функция для загрузки модели"""
     logger.info('Загрузка модели')
     with open(path, 'rb') as model:
         return pickle.load(model)
 
 
 def save_transformer(transformer, path: str = "models/XGBClassifier_transformer.pkl"):
+    """Функция для сохранения трансформера"""
     with open(path, 'wb') as file:
         pickle.dump(transformer, file, protocol=pickle.HIGHEST_PROTOCOL)
 
@@ -84,6 +92,7 @@ def save_transformer(transformer, path: str = "models/XGBClassifier_transformer.
 
 
 def load_transformer(path: str):
+    """Функция для загрузки трансформера"""
     logger.info('Загрузка transformer')
     with open(path, 'rb') as transformer:
         return pickle.load(transformer)

@@ -1,3 +1,7 @@
+"""
+Файл для обучения модели.
+На вход подается конфиг для обучения модели.
+"""
 import json
 import logging
 import sys
@@ -7,7 +11,7 @@ import pandas as pd
 
 from parameters.train_params import TrainingParams, read_training_params
 
-from load_save_data.dataset_operations import read_data, split_train_val_data
+from load_save_data.dataset_operations import read_data, split_train_test_data
 
 from preprocessing_dataset.preprocessing_dataset import \
     extract_target, drop_target, build_feature_transformer, transform_dataset
@@ -25,18 +29,21 @@ logger.addHandler(handler)
 
 
 def run_train(config_path: str):
+    """Главная функция, запускающая весь процесс обучения"""
     training_params: TrainingParams = \
         read_training_params(config_path)
 
     if training_params.model_params.model_type == 'XGBClassifier':
-        logger.info(f'Запуск обучения модели {training_params.model_params.model_type} с параметрами: \n'
+        logger.info(f'Запуск обучения модели {training_params.model_params.model_type}'
+                    f' с параметрами: \n'
                     f'random_state = {training_params.model_params.random_state}\n'
                     f'learning_rate = {training_params.model_params.learning_rate}\n'
                     f'max_depth = {training_params.model_params.max_depth}\n'
                     f'n_estimators = {training_params.model_params.n_estimators}')
 
     elif training_params.model_params.model_type == 'LogisticRegression':
-        logger.info(f'Запуск обучения модели {training_params.model_params.model_type} с параметрами: \n'
+        logger.info(f'Запуск обучения модели {training_params.model_params.model_type}'
+                    f' с параметрами: \n'
                     f'random_state = {training_params.model_params.random_state}\n'
                     f'learning_rate = {training_params.model_params.penalty}\n'
                     f'max_depth = {training_params.model_params.max_iter}\n'
@@ -44,7 +51,7 @@ def run_train(config_path: str):
 
     data: pd.DataFrame = read_data(training_params.input_data_path)
 
-    train_df, valid_df = split_train_val_data(
+    train_df, valid_df = split_train_test_data(
         data, training_params.splitting_params
     )
 
@@ -96,7 +103,8 @@ def run_train(config_path: str):
 
 @click.command(name='run_train')
 @click.argument('config_path', default='configs/train_config.yaml')
-def train_command(config_path: str):
+def train_command(config_path: str = "configs/XGBClassifier_train_config.yaml"):
+    """функция для запуска процесса обучения"""
     run_train(config_path)
 
 

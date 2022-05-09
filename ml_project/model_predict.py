@@ -1,3 +1,7 @@
+"""
+Файл для предсказания обученной модели.
+На вход подается конфиг для предсказания обученной модели.
+"""
 import logging
 import sys
 import click
@@ -15,6 +19,7 @@ logger.addHandler(handler)
 
 
 def run_predict(config_path: str):
+    """Главная функция, запускающая весь процесс предсказания"""
     logger.info('Запуск предсказания модели')
     logger.info('Подготовка данных')
 
@@ -40,7 +45,8 @@ def run_predict(config_path: str):
 
 @click.command(name='run_predict')
 @click.argument('config_path')
-def run_predict_command(config_path: str):
+def run_predict_command(config_path: str = "configs/XGBClassifier_predict_config.yaml"):
+    """функция для запуска процесса предсказания"""
     run_predict(config_path)
 
 

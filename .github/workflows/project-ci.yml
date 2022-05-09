@@ -25,7 +25,7 @@ jobs:
           python -m pip install -e .
       - name: Code analysis with pylint
         run: |
-          pylint ./ml_project
+          pylint --disable=W1203,R0902 ./ml_project
       - name: Lint with flake8
         run: |
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
