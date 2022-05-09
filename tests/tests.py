@@ -7,20 +7,20 @@ from ml_project.preprocessing_dataset.preprocessing_dataset import transform_dat
 
 class TestProject(unittest.TestCase):
     def test_predict_model(self):
-        data = read_data('C:/Users/miair/PycharmProjects/ML_in_prod_HW1/data/raw.csv')
+        data = read_data('data/raw.csv')
         data = data.drop(columns=['condition'])
-        transformer = load_transformer("C:/Users/miair/PycharmProjects/ML_in_prod_HW1/models/XGBClassifier_transformer.pkl")
+        transformer = load_transformer("models/XGBClassifier_transformer.pkl")
         feature = transform_dataset(transformer, data)
-        model = load_model("C:/Users/miair/PycharmProjects/ML_in_prod_HW1/models/XGBClassifier.pkl")
+        model = load_model("models/XGBClassifier.pkl")
         predict = predict_model(model, feature)
         self.assertEqual(297, len(predict))
 
     def test_read_data(self):
-        data = read_data('C:/Users/miair/PycharmProjects/ML_in_prod_HW1/data/raw.csv')
+        data = read_data('data/raw.csv')
         self.assertEqual(297, len(data))
 
     def test_split_data(self):
-        data = read_data('C:/Users/miair/PycharmProjects/ML_in_prod_HW1/data/raw.csv')
+        data = read_data('data/raw.csv')
         splitting_params = SplittingParams(random_state=42, test_size=0.2)
         train, test = split_train_test_data(data, splitting_params)
         self.assertEqual(237, len(train))
