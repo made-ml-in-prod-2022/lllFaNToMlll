@@ -36,7 +36,7 @@ docker run --rm -p 80:80 lllfantomlll/lllfantomlll:ready
 	│
 	├── envinit.sh              <- Файл с настройками для виртуального окружения.
 	│
-	├── make_request            <- Скрипт для отправки команды предсказания.
+	├── make_predict_request	<- Скрипт для отправки команды предсказания.
 	│
 	├── README.md               <- Инструкция к проекту.
 	│
