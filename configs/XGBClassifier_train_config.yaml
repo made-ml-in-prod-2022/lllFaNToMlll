@@ -1,0 +1,41 @@
+input_data_path: "data/raw.csv"
+metric_path: "models/XGBClassifier_metrics_train.json"
+save_model: "models/XGBClassifier.pkl"
+save_transformer: "models/XGBClassifier_transformer.pkl"
+
+model_params:
+  model_type: "XGBClassifier"
+  random_state: 42
+  learning_rate: 1
+  max_depth: 10
+  n_estimators: 1000
+  eval_metric: "logloss"
+  use_label_encoder: False
+  
+
+custom_transformer_params:
+  use_custom_transformer: false
+
+
+feature_params:
+  one_hot_encoding_features:
+    - "sex"
+    - "cp"
+    - "fbs"
+    - "restecg"
+    - "exang"
+    - "slope"
+    - "thal"
+    - "ca"
+    - "age"
+  num_features:
+    - "trestbps"
+    - "chol"
+    - "thalach"
+    - "oldpeak"
+  target: "condition"
+
+
+splitting_params:
+  test_size: 0.2
+  random_state: 42
